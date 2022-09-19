@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {FaEdit, FaTrash  } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import { MdOutlineDoneOutline  } from 'react-icons/md';
 import { AiOutlineClockCircle  } from 'react-icons/ai';
 
 const Tasks = ({taskInfo, allTasks}) => {
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isFinish, setIsFinish] = useState(0);
   const {_id, taskName, time} = taskInfo;
 
   const [newName, setNewName] = useState(taskName)
@@ -22,6 +22,12 @@ const Tasks = ({taskInfo, allTasks}) => {
         "content-type" : "application/json"
       },
       body: JSON.stringify(newUpdatedData)
+    }).then(()=> {
+      Swal.fire(
+        'Good job!',
+        'Your task is updated successfully!',
+        'success'
+      )
     })
     setIsUpdating(false)
     event.preventDefault();
@@ -48,8 +54,11 @@ const Tasks = ({taskInfo, allTasks}) => {
     .then(res => res.json())
     .then(data => {
       if(data.deletedCount > 0) {
-        alert("Good job!")
-        setIsFinish(false);
+        Swal.fire(
+          'Good job!',
+          'You have finished the task!',
+          'success'
+        )
         const remainingTasks = allTasks[0].filter(singleTask => _id !== singleTask._id);
         console.log(remainingTasks)
         console.log(allTasks)
@@ -61,7 +70,7 @@ const Tasks = ({taskInfo, allTasks}) => {
 
   // handling delete 
   const handleDelete = () => {
-    const proceed = window.confirm( isFinish? "Did you finish that?" : "Are you sure to delete the task?" );
+    const proceed = window.confirm( "Are you sure to delete the task?" );
     if(proceed) {
       fetch(`http://localhost:5000/alltasks/${_id}`, {
       method: "DELETE"
@@ -69,8 +78,11 @@ const Tasks = ({taskInfo, allTasks}) => {
     .then(res => res.json())
     .then(data => {
       if(data.deletedCount > 0) {
-        alert("Deleted successfully!")
-        setIsFinish(false);
+        Swal.fire(
+          'Deleted!',
+          'Your taks has been deleted.',
+          'success'
+        )
         const remainingTasks = allTasks[0].filter(singleTask => _id !== singleTask._id);
         console.log(remainingTasks)
         console.log(allTasks)

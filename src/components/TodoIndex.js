@@ -35,7 +35,11 @@ export default function TodoIndex() {
     .then(res => res.json())
     .then(data =>{
       if(data.insertedId) {
-        alert("You data is inserted successfully");
+        Swal.fire(
+          'Good job!',
+          'Your task is inserted successfully!',
+          'success'
+        )
         event.target.reset()
       }
     })
