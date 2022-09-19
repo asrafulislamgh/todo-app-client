@@ -11,7 +11,7 @@ export default function TodoIndex() {
     fetch("http://localhost:5000/alltasks")
   .then(res => res.json())
   .then(data => setAllTasks(data));
-  }, [])
+  }, [allTasks])
 
 
   // Retriving tasks from DB 
