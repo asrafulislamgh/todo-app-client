@@ -5,18 +5,37 @@ import { AiOutlineClockCircle  } from 'react-icons/ai';
 
 const Tasks = ({taskInfo, allTasks}) => {
   const [isUpdating, setIsUpdating] = useState(false);
+  const {_id, taskName, time} = taskInfo;
 
-  // handling update 
-  // const renderUpdateForm = (id) => {
-  //   // <form className=''>
-  //   //   <input type="text" name="update" id="" placeholder='Text' />
-  //   //   <button type='submit' className='w-2/4 rounded-full bg-blue-500 hover:bg-blue-700 py-2 px-4 text-white'>Update</button>
-  //   // </form>
-  //   <p>Test is going on</p>
-  // }
-  const updateForm = () => {
+  const [newName, setNewName] = useState(taskName)
+  const [newTime, setNewTime] = useState(time)
+
+
+
+  const updateForm = (event) => {
+    const newUpdatedData = { taskName: newName, time: newTime};
+    console.log(_id)
+    fetch(`http://localhost:5000/alltasks/${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body: JSON.stringify(newUpdatedData)
+    })
     setIsUpdating(false)
+    event.preventDefault();
   }
+
+  // handle update 
+ const handleChangingName = (e) => {
+  const newInputName = e.target.value;
+  setNewName(newInputName);
+ }
+ const handleChangingTime = (e) => {
+  const newInputTime = e.target.value;
+  console.log(newInputTime)
+  setNewTime(newInputTime);
+ }
 
   // handling delete 
   const handleDelete = (id) => {
@@ -37,7 +56,7 @@ const Tasks = ({taskInfo, allTasks}) => {
     })
     }
   }
-  const {_id, taskName, time} = taskInfo;
+  
     const text= "I have a lot of thing to do today. But I haven not enough time."
     return (
 
@@ -48,8 +67,8 @@ const Tasks = ({taskInfo, allTasks}) => {
             <div>
               <form onSubmit={updateForm} className='flex justify-between gap-2'>
                   <div className='flex justify-between gap-2'>
-                      <input className='shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="text" name="update" id="" placeholder='Text' value={taskName}/>
-                      <input className="shadow appearance-none border text-sm rounded-full w-3/6 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="inputTime" type="time" placeholder="Time" value={time} required/>
+                      <input className='shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="text" name="update" id="" placeholder='Text' onChange={handleChangingName} value={newName}/>
+                      <input className="shadow appearance-none border text-sm rounded-full w-3/6 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="inputTime" type="time" placeholder="Time" onChange={handleChangingTime} value={newTime} required/>
                   </div>
                   <button type='submit' className='rounded-full bg-blue-500 hover:bg-blue-700 py-2 px-4 text-white'>Update</button>
               </form>
