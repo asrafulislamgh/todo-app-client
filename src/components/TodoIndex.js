@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 import Tasks from './Tasks';
 
 
