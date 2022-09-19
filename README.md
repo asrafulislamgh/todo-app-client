@@ -3,7 +3,7 @@
 ## What i did?
 
 # I have created all the functionlity requires.
-    - You can ENSERT a task and schedule time.
+    - You can INSERT a task and schedule time.
     - You can UPDATE the time and Task description.
     - You can DELETE an entity
     - You can tag as FINISH a particular task.
